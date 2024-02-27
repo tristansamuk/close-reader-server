@@ -1,0 +1,15 @@
+[
+    {
+        "id": 1,
+        "collection_title": "Sonnets that Slap",
+        "descripton": "A selection of fine fourteen-liners. Current vibe: line 9.",
+        "created_by": "username",
+        "create_date": 1706128814,
+        "poems": [
+            { "title": "Ozymandias", "author": "Percy Bysshe Shelley" },
+            { "title": "Acquainted with the Night", "author": "Robert Frost" },
+            { "title": "Sonnet 1", "author": "Willam Shakespeare" },
+            { "title": "Redemption", "author": "George Herbert" }
+        ]
+    }
+]
