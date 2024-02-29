@@ -1,12 +1,14 @@
 import express, { Request, Response } from "express";
 import cors from "cors";
-require("dotenv").config();
+import dotenv from "dotenv";
+dotenv.config();
 const app = express();
 
 // Route Imports
 
 // .env variables
-const { PORT, CORS_ORIGIN } = process.env;
+const { PORT, CORS_ORIGIN, DATABASE_URI } = process.env;
+console.log(DATABASE_URI);
 
 // Middleware
 
@@ -21,12 +23,10 @@ app.get("/", (_req: Request, res: Response) => {
 
 // Routes
 
-import collectionsRouter from "./routes/collections";
 import poetsRouter from "./routes/poets";
 import poemsRouter from "./routes/poems";
 import analysesRouter from "./routes/analyses";
 
-app.use("/collections", collectionsRouter);
 app.use("/poets", poetsRouter);
 app.use("/poems", poemsRouter);
 app.use("/analyses", analysesRouter);
