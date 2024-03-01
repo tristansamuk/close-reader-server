@@ -7,8 +7,7 @@ const app = express();
 // Route Imports
 
 // .env variables
-const { PORT, CORS_ORIGIN, DATABASE_URI } = process.env;
-console.log(DATABASE_URI);
+const { PORT, CORS_ORIGIN } = process.env;
 
 // Middleware
 
