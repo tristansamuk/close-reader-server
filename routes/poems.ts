@@ -27,17 +27,6 @@ router.get("/all", async (req: Request, res: Response) => {
   }
 });
 
-// // GET all lines of all poems
-
-// router.get("/all/lines", async (req: Request, res: Response) => {
-//   try {
-//     const data = await db("poems");
-//     res.status(200).json(data);
-//   } catch {
-//     res.status(500).send("Error getting poems");
-//   }
-// });
-
 // // GET list of poems by a single poet
 
 router.get("/:poetName", async (req: Request, res: Response) => {
@@ -84,27 +73,39 @@ router.get("/titles/:poemTitle", async (req: Request, res: Response) => {
   }
 });
 
-// // GET poem information (data used for to render author, title, and publication date on poem page)
+// // GET poem information (data used to render author, title, and publication date on poem page)
 
-// router.get("/info/:poemTitle", async (req: Request, res: Response) => {
-//   try {
-//     const poemTitle = req.params.poemTitle;
-//     const data = await db("titles")
-//       .join("poets", "titles.poet_id", "poets.id")
-//       .select(
-//         "poets.first_name",
-//         "poets.last_name",
-//         "poets.url_param",
-//         "titles.title",
-//         "titles.pub_year"
-//       )
-//       .where("titles.short_title", poemTitle);
-//     res.status(200).json(data);
-//   } catch (error) {
-//     res.status(500).send("Error getting poems");
-//     console.log(error);
-//   }
-// });
+router.get("/info/:poemTitle", async (req: Request, res: Response) => {
+  try {
+    const poemTitle = req.params.poemTitle;
+    const data = await db
+      .select({
+        firstName: poets.firstName,
+        lastName: poets.lastName,
+        urlParam: poets.urlParam,
+        title: titles.title,
+        pubYear: titles.pubYear,
+      })
+      .from(titles)
+      .innerJoin(poets, eq(titles.poetID, poets.id))
+      .where(eq(titles.shortTitle, poemTitle));
+
+    // const data = await db("titles")
+    //   .join("poets", "titles.poet_id", "poets.id")
+    //   .select(
+    //     "poets.first_name",
+    //     "poets.last_name",
+    //     "poets.url_param",
+    //     "titles.title",
+    //     "titles.pub_year"
+    //   )
+    //   .where("titles.short_title", poemTitle);
+    res.status(200).json(data);
+  } catch (error) {
+    res.status(500).send("Error getting poems");
+    console.log(error);
+  }
+});
 
 // // POST new poem line
 

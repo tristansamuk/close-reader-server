@@ -39,15 +39,6 @@ router.get("/all", (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         console.log(error);
     }
 }));
-// // GET all lines of all poems
-// router.get("/all/lines", async (req: Request, res: Response) => {
-//   try {
-//     const data = await db("poems");
-//     res.status(200).json(data);
-//   } catch {
-//     res.status(500).send("Error getting poems");
-//   }
-// });
 // // GET list of poems by a single poet
 router.get("/:poetName", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -92,26 +83,38 @@ router.get("/titles/:poemTitle", (req, res) => __awaiter(void 0, void 0, void 0,
         console.log(error);
     }
 }));
-// // GET poem information (data used for to render author, title, and publication date on poem page)
-// router.get("/info/:poemTitle", async (req: Request, res: Response) => {
-//   try {
-//     const poemTitle = req.params.poemTitle;
-//     const data = await db("titles")
-//       .join("poets", "titles.poet_id", "poets.id")
-//       .select(
-//         "poets.first_name",
-//         "poets.last_name",
-//         "poets.url_param",
-//         "titles.title",
-//         "titles.pub_year"
-//       )
-//       .where("titles.short_title", poemTitle);
-//     res.status(200).json(data);
-//   } catch (error) {
-//     res.status(500).send("Error getting poems");
-//     console.log(error);
-//   }
-// });
+// // GET poem information (data used to render author, title, and publication date on poem page)
+router.get("/info/:poemTitle", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const poemTitle = req.params.poemTitle;
+        const data = yield db_1.db
+            .select({
+            firstName: schema_1.poets.firstName,
+            lastName: schema_1.poets.lastName,
+            urlParam: schema_1.poets.urlParam,
+            title: schema_1.titles.title,
+            pubYear: schema_1.titles.pubYear,
+        })
+            .from(schema_1.titles)
+            .innerJoin(schema_1.poets, (0, drizzle_orm_1.eq)(schema_1.titles.poetID, schema_1.poets.id))
+            .where((0, drizzle_orm_1.eq)(schema_1.titles.shortTitle, poemTitle));
+        // const data = await db("titles")
+        //   .join("poets", "titles.poet_id", "poets.id")
+        //   .select(
+        //     "poets.first_name",
+        //     "poets.last_name",
+        //     "poets.url_param",
+        //     "titles.title",
+        //     "titles.pub_year"
+        //   )
+        //   .where("titles.short_title", poemTitle);
+        res.status(200).json(data);
+    }
+    catch (error) {
+        res.status(500).send("Error getting poems");
+        console.log(error);
+    }
+}));
 // // POST new poem line
 // router.post("/", async (req: Request, res: Response) => {
 //   try {
