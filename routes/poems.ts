@@ -2,7 +2,7 @@ import express, { Request, Response } from "express";
 const router = express.Router();
 import { db } from "../db/db";
 import { eq } from "drizzle-orm";
-import { poets, titles, poems, analyses } from "../db/schema";
+import { poets, titles, poems } from "../db/schema";
 
 // GET titles of all poems
 
@@ -89,34 +89,11 @@ router.get("/info/:poemTitle", async (req: Request, res: Response) => {
       .from(titles)
       .innerJoin(poets, eq(titles.poetID, poets.id))
       .where(eq(titles.shortTitle, poemTitle));
-
-    // const data = await db("titles")
-    //   .join("poets", "titles.poet_id", "poets.id")
-    //   .select(
-    //     "poets.first_name",
-    //     "poets.last_name",
-    //     "poets.url_param",
-    //     "titles.title",
-    //     "titles.pub_year"
-    //   )
-    //   .where("titles.short_title", poemTitle);
     res.status(200).json(data);
   } catch (error) {
     res.status(500).send("Error getting poems");
     console.log(error);
   }
 });
-
-// // POST new poem line
-
-// router.post("/", async (req: Request, res: Response) => {
-//   try {
-//     const newPoem = await db("poems").insert(req.body);
-//     res.status(201).json(req.body);
-//   } catch (error) {
-//     res.status(500).send("Error adding poem");
-//     console.log(error);
-//   }
-// });
 
 export default router;
