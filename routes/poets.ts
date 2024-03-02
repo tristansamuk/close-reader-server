@@ -2,7 +2,7 @@ import express, { Request, Response } from "express";
 const router = express.Router();
 import { db } from "../db/db";
 import { eq } from "drizzle-orm";
-import { poets, titles, poems } from "../db/schema";
+import { poets } from "../db/schema";
 
 // GET all poets
 

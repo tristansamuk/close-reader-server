@@ -36,7 +36,7 @@ router.get("/", (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
         res.status(500).send("Error getting poets");
     }
 }));
-// // GET single poet information
+// GET single poet information
 router.get("/:name", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const poetName = req.params.name;
@@ -44,9 +44,6 @@ router.get("/:name", (req, res) => __awaiter(void 0, void 0, void 0, function* (
             .select()
             .from(schema_1.poets)
             .where((0, drizzle_orm_1.eq)(schema_1.poets.urlParam, poetName));
-        // const data = await db("poets")
-        //   .select("*")
-        //   .where("poets.url_param", poetName);
         res.status(200).json(data);
     }
     catch (error) {

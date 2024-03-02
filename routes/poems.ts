@@ -27,7 +27,7 @@ router.get("/all", async (req: Request, res: Response) => {
   }
 });
 
-// // GET list of poems by a single poet
+// GET list of poems by a single poet
 
 router.get("/:poetName", async (req: Request, res: Response) => {
   try {
@@ -52,7 +52,7 @@ router.get("/:poetName", async (req: Request, res: Response) => {
   }
 });
 
-// // GET single Poem (data use to render lines of poem on SinglePoemPage)
+// GET single Poem (data use to render lines of poem on SinglePoemPage)
 
 router.get("/titles/:poemTitle", async (req: Request, res: Response) => {
   try {
@@ -73,7 +73,7 @@ router.get("/titles/:poemTitle", async (req: Request, res: Response) => {
   }
 });
 
-// // GET poem information (data used to render author, title, and publication date on poem page)
+// GET poem information (data used to render author, title, and publication date on poem page)
 
 router.get("/info/:poemTitle", async (req: Request, res: Response) => {
   try {
