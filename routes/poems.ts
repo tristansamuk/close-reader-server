@@ -10,23 +10,16 @@ router.get("/all", async (req: Request, res: Response) => {
   try {
     const data = await db
       .select({
-        // selection object here
+        id: titles.id,
+        title: titles.title,
+        shortTitle: titles.shortTitle,
+        pubYear: titles.pubYear,
+        firstName: poets.firstName,
+        lastName: poets.lastName,
       })
       .from(titles)
       .innerJoin(poets, eq(poets.id, titles.poetID))
       .orderBy(titles.title);
-    // const data = await db("titles")
-    //   .join("poets", "poets.id", "titles.poet_id")
-    //   .select(
-    //     "titles.id",
-    //     "titles.title",
-    //     "titles.short_title",
-    //     "titles.pub_year",
-    //     "poets.first_name",
-    //     "poets.last_name",
-    //     "pub_year"
-    //   )
-    //   .orderBy("titles.title");
     res.json(data);
   } catch (error) {
     res.status(500).send("Error getting poems");

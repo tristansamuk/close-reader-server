@@ -21,22 +21,17 @@ const schema_1 = require("../db/schema");
 router.get("/all", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const data = yield db_1.db
-            .select()
+            .select({
+            id: schema_1.titles.id,
+            title: schema_1.titles.title,
+            shortTitle: schema_1.titles.shortTitle,
+            pubYear: schema_1.titles.pubYear,
+            firstName: schema_1.poets.firstName,
+            lastName: schema_1.poets.lastName,
+        })
             .from(schema_1.titles)
-            .leftJoin(schema_1.poets, (0, drizzle_orm_1.eq)(schema_1.poets.id, schema_1.titles.poetID))
+            .innerJoin(schema_1.poets, (0, drizzle_orm_1.eq)(schema_1.poets.id, schema_1.titles.poetID))
             .orderBy(schema_1.titles.title);
-        // const data = await db("titles")
-        //   .join("poets", "poets.id", "titles.poet_id")
-        //   .select(
-        //     "titles.id",
-        //     "titles.title",
-        //     "titles.short_title",
-        //     "titles.pub_year",
-        //     "poets.first_name",
-        //     "poets.last_name",
-        //     "pub_year"
-        //   )
-        //   .orderBy("titles.title");
         res.json(data);
     }
     catch (error) {
