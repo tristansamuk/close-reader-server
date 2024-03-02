@@ -65,20 +65,24 @@ router.get("/:poetName", async (req: Request, res: Response) => {
 
 // // GET single Poem (data use to render lines of poem on SinglePoemPage)
 
-// router.get("/titles/:poemTitle", async (req: Request, res: Response) => {
-//   try {
-//     const poemTitle = req.params.poemTitle;
-//     const data = await db("poems")
-//       .join("titles", "poems.title_id", "titles.id")
-//       .select("poems.id", "poems.lns")
-//       .where("titles.short_title", poemTitle);
-
-//     res.status(200).json(data);
-//   } catch (error) {
-//     res.status(500).send("Error getting poems");
-//     console.log(error);
-//   }
-// });
+router.get("/titles/:poemTitle", async (req: Request, res: Response) => {
+  try {
+    const poemTitle = req.params.poemTitle;
+    const data = await db
+      .select({
+        id: poems.id,
+        lines: poems.lines,
+        shortTitle: titles.shortTitle,
+      })
+      .from(poems)
+      .innerJoin(titles, eq(poems.titleId, titles.id))
+      .where(eq(titles.shortTitle, poemTitle));
+    res.status(200).json(data);
+  } catch (error) {
+    res.status(500).send("Error getting poems");
+    console.log(error);
+  }
+});
 
 // // GET poem information (data used for to render author, title, and publication date on poem page)
 
