@@ -35,7 +35,7 @@ router.get("/all", (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         res.json(data);
     }
     catch (error) {
-        res.status(500).send("Error getting poems");
+        res.status(500).send("Error getting poem titles");
         console.log(error);
     }
 }));
@@ -49,26 +49,29 @@ router.get("/all", (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 //   }
 // });
 // // GET list of poems by a single poet
-// router.get("/:authorName", async (req: Request, res: Response) => {
-//   try {
-//     const authorName = req.params.authorName;
-//     const data = await db("titles")
-//       .join("poets", "poets.id", "titles.poet_id")
-//       .select(
-//         "poets.first_name",
-//         "poets.last_name",
-//         "titles.id",
-//         "titles.pub_year",
-//         "titles.short_title",
-//         "titles.title"
-//       )
-//       .where("poets.url_param", authorName);
-//     res.status(200).json(data);
-//   } catch (error) {
-//     res.status(500).send("Error getting poems");
-//     console.log(error);
-//   }
-// });
+router.get("/:poetName", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const poetName = req.params.poetName;
+        const data = yield db_1.db
+            .select({
+            title: schema_1.titles.title,
+            firstName: schema_1.poets.firstName,
+            lastName: schema_1.poets.lastName,
+            urlParam: schema_1.poets.urlParam,
+            titleId: schema_1.titles.id,
+            pubYear: schema_1.titles.pubYear,
+            shortTitle: schema_1.titles.shortTitle,
+        })
+            .from(schema_1.titles)
+            .innerJoin(schema_1.poets, (0, drizzle_orm_1.eq)(schema_1.poets.id, schema_1.titles.poetID))
+            .where((0, drizzle_orm_1.eq)(schema_1.poets.urlParam, poetName));
+        res.status(200).json(data);
+    }
+    catch (error) {
+        res.status(500).send("Error getting poems");
+        console.log(error);
+    }
+}));
 // // GET single Poem (data use to render lines of poem on SinglePoemPage)
 // router.get("/titles/:poemTitle", async (req: Request, res: Response) => {
 //   try {

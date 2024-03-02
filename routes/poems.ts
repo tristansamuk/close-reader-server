@@ -22,7 +22,7 @@ router.get("/all", async (req: Request, res: Response) => {
       .orderBy(titles.title);
     res.json(data);
   } catch (error) {
-    res.status(500).send("Error getting poems");
+    res.status(500).send("Error getting poem titles");
     console.log(error);
   }
 });
@@ -40,26 +40,28 @@ router.get("/all", async (req: Request, res: Response) => {
 
 // // GET list of poems by a single poet
 
-// router.get("/:authorName", async (req: Request, res: Response) => {
-//   try {
-//     const authorName = req.params.authorName;
-//     const data = await db("titles")
-//       .join("poets", "poets.id", "titles.poet_id")
-//       .select(
-//         "poets.first_name",
-//         "poets.last_name",
-//         "titles.id",
-//         "titles.pub_year",
-//         "titles.short_title",
-//         "titles.title"
-//       )
-//       .where("poets.url_param", authorName);
-//     res.status(200).json(data);
-//   } catch (error) {
-//     res.status(500).send("Error getting poems");
-//     console.log(error);
-//   }
-// });
+router.get("/:poetName", async (req: Request, res: Response) => {
+  try {
+    const poetName = req.params.poetName;
+    const data = await db
+      .select({
+        title: titles.title,
+        firstName: poets.firstName,
+        lastName: poets.lastName,
+        urlParam: poets.urlParam,
+        titleId: titles.id,
+        pubYear: titles.pubYear,
+        shortTitle: titles.shortTitle,
+      })
+      .from(titles)
+      .innerJoin(poets, eq(poets.id, titles.poetID))
+      .where(eq(poets.urlParam, poetName));
+    res.status(200).json(data);
+  } catch (error) {
+    res.status(500).send("Error getting poems");
+    console.log(error);
+  }
+});
 
 // // GET single Poem (data use to render lines of poem on SinglePoemPage)
 
