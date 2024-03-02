@@ -1,6 +1,6 @@
 import express, { Request, Response } from "express";
 const router = express.Router();
-import db from "../db/db";
+import { db } from "../db/db";
 
 // Get list of poets
 

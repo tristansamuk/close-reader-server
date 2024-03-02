@@ -7,7 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npx tsc",
     "prestart": "npm run build",
-    "start": "npx nodemon dist/server.js"
+    "start": "npx nodemon dist/server.js",
+    "db:generate": "npx drizzle-kit generate:pg",
+    "db:migrate": "npx node-ts ./db/migrate.ts"
   },
   "author": "Tristan Samuk",
   "license": "ISC",

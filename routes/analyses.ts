@@ -1,7 +1,7 @@
 import express, { Request, Response, NextFunction } from "express";
 import OpenAI from "openai";
 const router = express.Router();
-import db from "../db/db";
+import { db } from "../db/db";
 
 const openai = new OpenAI();
 
