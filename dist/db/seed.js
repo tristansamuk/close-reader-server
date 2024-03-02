@@ -10,12 +10,20 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 require("dotenv/config");
-const migrator_1 = require("drizzle-orm/postgres-js/migrator");
 const db_1 = require("./db");
+const schema_1 = require("./schema");
 const main = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield (0, migrator_1.migrate)(db_1.db, { migrationsFolder: "./db/migrations" });
-        console.log("Migration successful!");
+        console.log("Seeding database...");
+        // Delete all data (optional)
+        // await db.delete(poets);
+        // await db.delete(titles);
+        // await db.delete(poems);
+        // await db.delete(analyses);
+        yield db_1.db.insert(schema_1.poets).values([]);
+        yield db_1.db.insert(schema_1.titles).values([]);
+        yield db_1.db.insert(schema_1.poems).values([]);
+        yield db_1.db.insert(schema_1.analyses).values([]);
     }
     catch (error) {
         console.error(error);

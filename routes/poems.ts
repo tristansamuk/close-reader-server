@@ -1,29 +1,38 @@
 import express, { Request, Response } from "express";
 const router = express.Router();
 import { db } from "../db/db";
+import { eq } from "drizzle-orm";
+import { poets, titles, poems, analyses } from "../db/schema";
 
 // GET titles of all poems
 
-// router.get("/all", async (req: Request, res: Response) => {
-//   try {
-//     const data = await db("titles")
-//       .join("poets", "poets.id", "titles.poet_id")
-//       .select(
-//         "titles.id",
-//         "titles.title",
-//         "titles.short_title",
-//         "titles.pub_year",
-//         "poets.first_name",
-//         "poets.last_name",
-//         "pub_year"
-//       )
-//       .orderBy("titles.title");
-//     res.json(data);
-//   } catch (error) {
-//     res.status(500).send("Error getting poems");
-//     console.log(error);
-//   }
-// });
+router.get("/all", async (req: Request, res: Response) => {
+  try {
+    const data = await db
+      .select({
+        // selection object here
+      })
+      .from(titles)
+      .innerJoin(poets, eq(poets.id, titles.poetID))
+      .orderBy(titles.title);
+    // const data = await db("titles")
+    //   .join("poets", "poets.id", "titles.poet_id")
+    //   .select(
+    //     "titles.id",
+    //     "titles.title",
+    //     "titles.short_title",
+    //     "titles.pub_year",
+    //     "poets.first_name",
+    //     "poets.last_name",
+    //     "pub_year"
+    //   )
+    //   .orderBy("titles.title");
+    res.json(data);
+  } catch (error) {
+    res.status(500).send("Error getting poems");
+    console.log(error);
+  }
+});
 
 // // GET all lines of all poems
 

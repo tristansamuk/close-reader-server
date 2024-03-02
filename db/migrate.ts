@@ -8,7 +8,8 @@ const main = async () => {
     console.log("Migration successful!");
   } catch (error) {
     console.error(error);
+    process.exit(1);
   }
 };
 
-main();
+main().then(() => process.exit());
