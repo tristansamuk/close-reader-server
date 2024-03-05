@@ -39,7 +39,7 @@ router.get("/all", (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         console.log(error);
     }
 }));
-// // GET list of poems by a single poet
+// GET list of poems by a single poet
 router.get("/:poetName", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const poetName = req.params.poetName;
@@ -63,7 +63,7 @@ router.get("/:poetName", (req, res) => __awaiter(void 0, void 0, void 0, functio
         console.log(error);
     }
 }));
-// // GET single Poem (data use to render lines of poem on SinglePoemPage)
+// GET single Poem (data use to render lines of poem on SinglePoemPage)
 router.get("/titles/:poemTitle", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const poemTitle = req.params.poemTitle;
@@ -83,7 +83,7 @@ router.get("/titles/:poemTitle", (req, res) => __awaiter(void 0, void 0, void 0,
         console.log(error);
     }
 }));
-// // GET poem information (data used to render author, title, and publication date on poem page)
+// GET poem information (data used to render author, title, and publication date on poem page)
 router.get("/info/:poemTitle", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const poemTitle = req.params.poemTitle;
