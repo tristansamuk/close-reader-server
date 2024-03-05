@@ -5,7 +5,8 @@ import { db } from "../db/db";
 import { eq } from "drizzle-orm";
 import { analyses, titles, poets } from "../db/schema";
 
-const openai = new OpenAI();
+const apiKey = process.env.API_KEY;
+const openai = new OpenAI({ apiKey: apiKey });
 
 // Middleware
 
