@@ -18,7 +18,8 @@ const router = express_1.default.Router();
 const db_1 = require("../db/db");
 const drizzle_orm_1 = require("drizzle-orm");
 const schema_1 = require("../db/schema");
-const openai = new openai_1.default();
+const apiKey = process.env.API_KEY;
+const openai = new openai_1.default({ apiKey: apiKey });
 // Middleware
 const checkForAnalysis = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     // GET request to database to check for pre-existing analysis
@@ -42,13 +43,14 @@ const checkForAnalysis = (req, res, next) => __awaiter(void 0, void 0, void 0, f
                 firstName: schema_1.poets.firstName,
                 lastName: schema_1.poets.lastName,
                 title: schema_1.titles.title,
+                titleId: schema_1.titles.id,
             })
                 .from(schema_1.poets)
                 .innerJoin(schema_1.titles, (0, drizzle_orm_1.eq)(schema_1.titles.poetID, schema_1.poets.id))
                 .where((0, drizzle_orm_1.eq)(schema_1.titles.shortTitle, poemTitle));
             const poetName = `${poetTitle[0].firstName} ${poetTitle[0].lastName}`;
             const titleOfPoem = poetTitle[0].title;
-            const titleId = poetTitle[0].id;
+            const titleId = poetTitle[0].titleId;
             // Makes POST request to GPT to generate new analysis
             const sendToGPT = () => __awaiter(void 0, void 0, void 0, function* () {
                 const completion = yield openai.chat.completions.create({

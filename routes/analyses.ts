@@ -39,6 +39,7 @@ const checkForAnalysis = async (
           firstName: poets.firstName,
           lastName: poets.lastName,
           title: titles.title,
+          titleId: titles.id,
         })
         .from(poets)
         .innerJoin(titles, eq(titles.poetID, poets.id))
@@ -46,7 +47,7 @@ const checkForAnalysis = async (
 
       const poetName = `${poetTitle[0].firstName} ${poetTitle[0].lastName}`;
       const titleOfPoem = poetTitle[0].title;
-      const titleId = poetTitle[0].id;
+      const titleId = poetTitle[0].titleId;
 
       // Makes POST request to GPT to generate new analysis
 
