@@ -86,7 +86,7 @@ const checkForAnalysis = async (
       // Calling the function
       sendToGPT();
     } else {
-      res.status(200).json(data);
+      res.status(200).json(data[0].analysis);
     }
   } catch (error) {
     res.status(500).send("Error getting analysis");

@@ -83,7 +83,7 @@ const checkForAnalysis = (req, res, next) => __awaiter(void 0, void 0, void 0, f
             sendToGPT();
         }
         else {
-            res.status(200).json(data);
+            res.status(200).json(data[0].analysis);
         }
     }
     catch (error) {
